@@ -9,20 +9,19 @@ import com.bankapp.services.Session;
  * Hello world!
  *
  */
-public class App 
-{
+public class App {
     private Session session;
-    public App(){
+
+    public App() {
         this.session = new Session();
     }
-    public static void main( String[] args ) throws FileNotFoundException
-    {
+
+    public static void main(String[] args) throws FileNotFoundException {
         App app = new App();
         Connection connect = new Connection();
-        if(connect.login("panther", "password"))
-        {
+        if (connect.login("panther", "password")) {
             app.session.setCurrentUser(connect.getCurrentUser());
-            System.out.println( "Bienvenue : " + app.session.getCurrentUser().getLogin());
+            System.out.println("Bienvenue : " + app.session.getCurrentUser().getLogin());
 
         }
     }
