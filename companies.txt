@@ -1,9 +1,0 @@
-1, ABC Corp, 789 Business Rd, 123456, abc, company123, 50000.0
-2, XYZ Inc, 321 Corporate Ave, 654321, xyz, company456, 100000.0
-3, Tech Solutions, 546 Innovation St, 789012, tech, company789, 150000.0
-4, Creative Media, 987 Media St, 456789, creative, company456, 200000.0
-5, Global Tech, 123 Tech Blvd, 987654, global, company987, 250000.0
-6, Innovate Solutions, 456 Innovation Blvd, 135790, innovate, company135, 300000.0
-7, Future Tech, 789 Future St, 543210, future, company543, 350000.0
-8, Quantum Tech, 123 Quantum Ave, 111111, quantum, company111, 400000.0
-9, Future Innovate, 456 Future Blvd, 222222, future, company222, 450000.0
