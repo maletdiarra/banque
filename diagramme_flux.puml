@@ -1,0 +1,132 @@
+@startuml flux
+start
+
+:Créer un nouveau compte;
+if (Type de compte?) then (Client Utilisateur)
+    :Saisir les informations personnelles;
+    :Vérifier les informations;
+    if (Informations valides?) then (Oui)
+        :Générer un numéro de carte à 16 chiffres;
+        :Attribuer un type de compte (Bronze, Or);
+        :Enregistrer les informations dans users.txt;
+        :Approuver le compte par l'employé bancaire;
+        :Envoyer les détails de la carte au client;
+    else (Non)
+        :Rejeter la demande de compte;
+    endif
+else (Client Entreprise)
+    :Saisir les informations de l'entreprise;
+    :Vérifier les informations;
+    if (Informations valides?) then (Oui)
+        :Générer un numéro de carte à 16 chiffres;
+        :Attribuer un type de compte (Affaires);
+        :Enregistrer les informations dans companies.txt;
+        :Approuver le compte par l'employé bancaire;
+        :Envoyer les détails de la carte au PDG;
+    else (Non)
+        :Rejeter la demande de compte;
+    endif
+endif
+
+:Connexion au système;
+if (Type d'utilisateur?) then (Client Utilisateur)
+    :Saisir le login et le mot de passe;
+    :Vérifier les informations de connexion;
+    if (Connexion réussie?) then (Oui)
+        :Afficher le menu utilisateur;
+        :Choisir une opération (Dépôt, Retrait, Transfert, Consulter solde);
+        if (Opération choisie?) then (Dépôt)
+            :Saisir le montant à déposer;
+            :Mettre à jour le solde du compte;
+            :Enregistrer la transaction dans transactions.txt;
+        else if (Retrait)
+            :Saisir le montant à retirer;
+            :Vérifier le solde et la limite quotidienne;
+            if (Montant valide?) then (Oui)
+                :Mettre à jour le solde du compte;
+                :Enregistrer la transaction dans transactions.txt;
+            else (Non)
+                :Afficher un message d'erreur;
+            endif
+        else if (Transfert)
+            :Saisir le montant à transférer;
+            :Saisir l'ID du destinataire;
+            :Vérifier le solde et la limite quotidienne;
+            if (Montant valide?) then (Oui)
+                :Mettre à jour les soldes des comptes;
+                :Enregistrer la transaction dans transactions.txt;
+            else (Non)
+                :Afficher un message d'erreur;
+            endif
+        else if (Consulter solde)
+            :Afficher le solde du compte;
+            :Afficher l'historique des transactions;
+        endif
+    else (Non)
+        :Afficher un message d'erreur;
+    endif
+else if (Client Entreprise)
+    :Saisir le login et le mot de passe;
+    :Vérifier les informations de connexion;
+    if (Connexion réussie?) then (Oui)
+        :Afficher le menu entreprise;
+        :Choisir une opération (Dépôt, Retrait, Transfert, Consulter solde, Demande de prêt);
+        if (Opération choisie?) then (Dépôt)
+            :Saisir le montant à déposer;
+            :Mettre à jour le solde du compte;
+            :Enregistrer la transaction dans transactions.txt;
+        else if (Retrait)
+            :Saisir le montant à retirer;
+            :Vérifier le solde et la limite quotidienne;
+            if (Montant valide?) then (Oui)
+                :Mettre à jour le solde du compte;
+                :Enregistrer la transaction dans transactions.txt;
+            else (Non)
+                :Afficher un message d'erreur;
+            endif
+        else if (Transfert)
+            :Saisir le montant à transférer;
+            :Saisir l'ID du destinataire;
+            :Vérifier le solde et la limite quotidienne;
+            if (Montant valide?) then (Oui)
+                :Mettre à jour les soldes des comptes;
+                :Enregistrer la transaction dans transactions.txt;
+            else (Non)
+                :Afficher un message d'erreur;
+            endif
+        else if (Consulter solde)
+            :Afficher le solde du compte;
+            :Afficher l'historique des transactions;
+        else if (Demande de prêt)
+            :Saisir les détails du prêt;
+            :Envoyer la demande à l'employé bancaire;
+        endif
+    else (Non)
+        :Afficher un message d'erreur;
+    endif
+else if (Employé Bancaire)
+    :Saisir le login et le mot de passe;
+    :Vérifier les informations de connexion;
+    if (Connexion réussie?) then (Oui)
+        :Afficher le menu employé;
+        :Choisir une opération (Approuver/Rejeter compte, Approuver/Rejeter prêt, Consulter historique, Geler/Fermer compte);
+        if (Opération choisie?) then (Approuver/Rejeter compte)
+            :Consulter la liste des demandes de compte;
+            :Approuver ou rejeter la demande;
+        else if (Approuver/Rejeter prêt)
+            :Consulter la liste des demandes de prêt;
+            :Approuver ou rejeter la demande;
+        else if (Consulter historique)
+            :Saisir l'ID du compte;
+            :Afficher l'historique des transactions;
+        else if (Geler/Fermer compte)
+            :Saisir l'ID du compte;
+            :Geler ou fermer le compte;
+        endif
+    else (Non)
+        :Afficher un message d'erreur;
+    endif
+endif
+
+stop
+@enduml

@@ -1,0 +1,30 @@
+@startuml diagramme_flux_creation_compt
+start
+:Créer un nouveau compte;
+if (Type de compte?) then (Client Utilisateur)
+    :Saisir les informations personnelles;
+    :Vérifier les informations;
+    if (Informations valides?) then (Oui)
+        :Générer un numéro de carte à 16 chiffres;
+        :Attribuer un type de compte (Bronze, Or);
+        :Enregistrer les informations dans users.txt;
+        :Approuver le compte par l'employé bancaire;
+        :Envoyer les détails de la carte au client;
+    else (Non)
+        :Rejeter la demande de compte;
+    endif
+else (Client Entreprise)
+    :Saisir les informations de l'entreprise;
+    :Vérifier les informations;
+    if (Informations valides?) then (Oui)
+        :Générer un numéro de carte à 16 chiffres;
+        :Attribuer un type de compte (Affaires);
+        :Enregistrer les informations dans companies.txt;
+        :Approuver le compte par l'employé bancaire;
+        :Envoyer les détails de la carte au PDG;
+    else (Non)
+        :Rejeter la demande de compte;
+    endif
+endif
+stop
+@enduml

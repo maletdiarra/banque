@@ -1,0 +1,97 @@
+@startuml base_de_donnees
+' Définir les tables
+
+entity "ClientUtilisateur" {
+    * user_id : int [PK]
+    --
+    * nom_complet : varchar
+    * adresse : varchar
+    * telephone : varchar
+    * cnic : varchar
+    * login : varchar
+    * password : varchar
+    * solde : decimal
+    * limite_retrait_quotidien : decimal
+    * type_compte : varchar
+}
+
+entity "ClientEntreprise" {
+    * company_id : int [PK]
+    --
+    * nom_entreprise : varchar
+    * adresse_entreprise : varchar
+    * numero_fiscal : varchar
+    * solde : decimal
+    * limite_retrait_quotidien : decimal
+    * type_compte : varchar
+}
+
+entity "EmployeBancaire" {
+    * employe_id : int [PK]
+    --
+    * login : varchar
+    * password : varchar
+}
+
+entity "Carte" {
+    * carte_id : int [PK]
+    --
+    * user_id : int [FK]
+    * company_id : int [FK]
+    * numero_carte : varchar
+    * pin : varchar
+}
+
+entity "Transaction" {
+    * transaction_id : int [PK]
+    --
+    * user_id : int [FK]
+    * company_id : int [FK]
+    * montant : decimal
+    * type_transaction : varchar
+    * date_transaction : datetime
+    * destinataire_id : int [FK]
+}
+
+entity "EmployesEntreprise" {
+    * employe_entreprise_id : int [PK]
+    --
+    * user_id : int [FK]
+    * company_id : int [FK]
+}
+
+entity "DemandePret" {
+    * demande_id : int [PK]
+    --
+    * company_id : int [FK]
+    * montant : decimal
+    * statut : varchar
+}
+
+' Définir les relations
+
+ClientUtilisateur ||--o{ Carte : "possède"
+ClientEntreprise ||--o{ Carte : "possède"
+ClientUtilisateur ||--o{ Transaction : "effectue"
+ClientEntreprise ||--o{ Transaction : "effectue"
+ClientEntreprise ||--o{ DemandePret : "demande"
+ClientEntreprise ||--o{ EmployesEntreprise : "emploie"
+ClientUtilisateur }o--|| EmployesEntreprise : "fait partie de"
+
+' Commentaires supplémentaires
+note left of ClientUtilisateur
+    - Un client utilisateur peut avoir plusieurs cartes.
+    - Le type de compte est déterminé par la limite de retrait quotidien.
+end note
+
+note left of ClientEntreprise
+    - Un client entreprise peut avoir plusieurs employés.
+    - Le type de compte est toujours "Affaires".
+end note
+
+note left of Transaction
+    - Le champ destinataire_id est utilisé pour les transferts.
+    - Le champ type_transaction peut être "Dépôt", "Retrait" ou "Transfert".
+end note
+
+@enduml

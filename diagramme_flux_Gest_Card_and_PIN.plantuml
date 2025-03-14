@@ -1,0 +1,18 @@
+@startuml diagramme_flux_Gest_Card_and_PIN
+start
+:Choisir une carte pour la transaction;
+:Saisir le code PIN;
+if (Code PIN valide?) then (Oui)
+    :Effectuer la transaction;
+    :Enregistrer la transaction dans transactions.txt;
+else (Non)
+    :Incrémenter le compteur d'échecs;
+    if (Nombre d'échecs >= 3?) then (Oui)
+        :Marquer le compte comme frauduleux;
+        :Envoyer un rapport à l'employé bancaire;
+    else (Non)
+        :Afficher un message d'erreur;
+    endif
+endif
+stop
+@enduml
