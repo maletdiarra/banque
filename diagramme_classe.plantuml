@@ -1,0 +1,127 @@
+@startuml diagramme_classe
+' Définition des classes principales
+
+abstract class User {
+    - String login
+    - String password
+    + boolean authentifier(String login, String password)
+}
+
+class ClientUtilisateur extends User {
+    - int userId
+    - String nomComplet
+    - String adresse
+    - String telephone
+    - String cnic
+    + void consulterSolde()
+    + void demanderCarte()
+}
+
+class ClientEntreprise extends User {
+    - int companyId
+    - String nomEntreprise
+    - String adresseEntreprise
+    - String numeroFiscal
+    + void consulterSolde()
+    + void demanderPret(double montant)
+    + void demanderCarte()
+}
+
+class EmployeBancaire extends User {
+    - int employeId
+    + void approuverCompte(ClientUtilisateur client)
+    + void approuverPret(ClientEntreprise entreprise)
+    + void consulterTransactions()
+    + void gelerCompte(int userId)
+    + void creerCarte(int compteId)
+    + void bloquerCarte(int cardId)
+}
+
+abstract class Compte {
+    - int id
+    - double solde
+    - double limiteRetraitQuotidien
+    - String status
+    + void deposer(double montant)
+    + void retirer(double montant)
+    + void consulterSolde()
+}
+
+class CompteUtilisateur extends Compte {
+    - ClientUtilisateur proprietaire
+}
+
+class CompteEntreprise extends Compte {
+    - ClientEntreprise proprietaire
+}
+
+class Carte {
+    - int cardId
+    - int compteId
+    - String cardNumber
+    - String cardPin
+    - String status
+    + void genererNumeroCarte()
+    + void genererCodePIN()
+    + void bloquer()
+}
+
+class Transaction {
+    - int transactionId
+    - Date date
+    - double montant
+    - String type
+    - int compteSourceId
+    - int compteDestinataireId
+    + void enregistrerTransaction()
+}
+
+class Banque {
+    - List<ClientUtilisateur> clientsUtilisateurs
+    - List<ClientEntreprise> clientsEntreprises
+    - List<EmployeBancaire> employes
+    - List<Transaction> transactions
+    - List<Compte> comptes
+    - List<Carte> cartes
+    + void ajouterClientUtilisateur(ClientUtilisateur client)
+    + void ajouterClientEntreprise(ClientEntreprise entreprise)
+    + void ajouterEmploye(EmployeBancaire employe)
+    + void effectuerTransaction(Transaction transaction)
+    + void genererCarte(int compteId)
+    + void bloquerCarte(int cardId)
+}
+
+' Définition des relations
+
+' User <|-- ClientUtilisateur
+' User <|-- ClientEntreprise
+' User <|-- EmployeBancaire
+
+ClientUtilisateur "1" -- "1" CompteUtilisateur
+ClientEntreprise "1" -- "1" CompteEntreprise
+
+Compte "1" -- "*" Transaction
+Banque "1" -- "*" User
+Banque "1" -- "*" Transaction
+Banque "1" -- "*" Carte
+Compte "1" -- "*" Carte
+EmployeBancaire "1" -- "*" Transaction
+
+' Commentaires supplémentaires
+
+note right of User
+    - La classe `User` est abstraite.
+    - `ClientUtilisateur`, `ClientEntreprise` et `EmployeBancaire` en héritent.
+    - Méthode `authentifier()` commune à tous.
+end note
+
+note right of Compte
+    - `CompteUtilisateur` et `CompteEntreprise` héritent de `Compte`.
+    - Un compte peut être "actif", "gelé" ou "fermé".
+end note
+
+note right of Transaction
+    - Le champ "type" peut être "Dépôt", "Retrait" ou "Transfert".
+end note
+
+@enduml
