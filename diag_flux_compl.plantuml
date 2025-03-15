@@ -1,0 +1,166 @@
+@startuml diag_flux_compl
+start
+
+:Connexion au système;
+if (Déjà un compte?) then (Oui)
+    :Saisir le login et le mot de passe;
+    :Vérifier les informations de connexion;
+    if (Connexion réussie?) then (Oui)
+        :Vérifier le type d'utilisateur;
+
+        if (Employé Bancaire?) then (Oui)
+            :Afficher le menu Employé Bancaire;
+            :Choisir une opération;
+            if (Opération choisie?) then (Consulter comptes clients)
+                :Afficher la liste des comptes;
+            else if (Approuver/Rejeter ouverture de compte)
+                :Traiter les demandes de compte;
+                if (Demande approuvée?) then (Oui)
+                    :Générer un numéro de carte à 16 chiffres;
+                    :Générer un code PIN;
+                    :Associer la carte au compte;
+                    :Enregistrer la carte dans cards.txt;
+                    :Afficher les détails de la carte au client;
+                else (Non)
+                    :Rejeter la demande;
+                    :Afficher un message de refus;
+                endif
+            else if (Approuver/Rejeter demandes de prêt)
+                :Gérer les demandes de prêt;
+            else if (Consulter transactions)
+                :Afficher l'historique des transactions;
+            else if (Geler/Fermer un compte)
+                :Effectuer l'opération;
+            else if (Gérer les cartes de crédit)
+                :Afficher la liste des cartes;
+                :Choisir une opération;
+                if (Opération choisie?) then (Créer une carte)
+                    :Générer un numéro de carte à 16 chiffres;
+                    :Générer un code PIN;
+                    :Enregistrer la carte dans cards.txt;
+                else if (Bloquer une carte)
+                    :Marquer la carte comme bloquée;
+                    :Enregistrer la modification dans cards.txt;
+                endif
+            endif
+        else if (Employé d’Entreprise?) then (Oui)
+            :Afficher le choix du compte;
+            if (Compte personnel?) then (Oui)
+                :Afficher le menu utilisateur;
+            else (Compte Entreprise)
+                :Afficher le menu entreprise;
+            endif
+
+            :Choisir une opération;
+            if (Opération choisie?) then (Dépôt)
+                :Saisir montant;
+                :Mettre à jour solde;
+                :Enregistrer transaction;
+            else if (Retrait)
+                :Saisir montant;
+                :Vérifier solde et limite;
+                if (Montant valide?) then (Oui)
+                    :Mettre à jour solde;
+                    :Enregistrer transaction;
+                else (Non)
+                    :Afficher message d'erreur;
+                endif
+            else if (Transfert)
+                :Saisir montant;
+                :Saisir ID destinataire;
+                :Vérifier solde et limite;
+                if (Montant valide?) then (Oui)
+                    :Mettre à jour les comptes;
+                    :Enregistrer transaction;
+                else (Non)
+                    :Afficher message d'erreur;
+                endif
+            else if (Consulter solde)
+                :Afficher solde et historique;
+            else if (Demande de prêt)
+                :Saisir détails prêt;
+                :Envoyer à la banque;
+            else if (Gérer les cartes de crédit)
+                :Afficher la liste des cartes;
+                :Choisir une opération;
+                if (Opération choisie?) then (Créer une carte)
+                    :Générer un numéro de carte à 16 chiffres;
+                    :Générer un code PIN;
+                    :Enregistrer la carte dans cards.txt;
+                else if (Bloquer une carte)
+                    :Marquer la carte comme bloquée;
+                    :Enregistrer la modification dans cards.txt;
+                endif
+            endif
+        else (Client Utilisateur)
+            :Afficher le menu utilisateur;
+            :Choisir une opération;
+            if (Opération choisie?) then (Dépôt)
+                :Saisir montant;
+                :Mettre à jour solde;
+                :Enregistrer transaction;
+            else if (Retrait)
+                :Saisir montant;
+                :Vérifier solde et limite;
+                if (Montant valide?) then (Oui)
+                    :Mettre à jour solde;
+                    :Enregistrer transaction;
+                else (Non)
+                    :Afficher message d'erreur;
+                endif
+            else if (Transfert)
+                :Saisir montant;
+                :Saisir ID destinataire;
+                :Vérifier solde et limite;
+                if (Montant valide?) then (Oui)
+                    :Mettre à jour les comptes;
+                    :Enregistrer transaction;
+                else (Non)
+                    :Afficher message d'erreur;
+                endif
+            else if (Consulter solde)
+                :Afficher solde et historique;
+            else if (Gérer les cartes de crédit)
+                :Afficher la liste des cartes;
+                :Choisir une opération;
+                if (Opération choisie?) then (Créer une carte)
+                    :Générer un numéro de carte à 16 chiffres;
+                    :Générer un code PIN;
+                    :Enregistrer la carte dans cards.txt;
+                else if (Bloquer une carte)
+                    :Marquer la carte comme bloquée;
+                    :Enregistrer la modification dans cards.txt;
+                endif
+            endif
+        endif
+    else (Non)
+        :Afficher un message d'erreur;
+    endif
+else (Non)
+    :Afficher les options;
+    if (Choix?) then (Créer un compte utilisateur)
+        :Saisir les informations (nom, adresse, téléphone, CNIC, login, mot de passe);
+        :Vérifier unicité du login;
+        if (Login disponible?) then (Oui)
+            :Enregistrer dans users.txt;
+            :Envoyer la demande à l'employé bancaire pour approbation;
+            if (Demande approuvée?) then (Oui)
+                :Générer un numéro de carte à 16 chiffres;
+                :Générer un code PIN;
+                :Associer la carte au compte;
+                :Enregistrer la carte dans cards.txt;
+                :Afficher les détails de la carte au client;
+            else (Non)
+                :Rejeter la demande;
+                :Afficher un message de refus;
+            endif
+        else (Non)
+            :Afficher message d'erreur;
+        endif
+    else if (Quitter)
+        :Quitter l'application;
+    endif
+endif
+
+stop
+@enduml

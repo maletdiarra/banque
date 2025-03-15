@@ -1,0 +1,122 @@
+@startuml diagramme_flux_complet
+start
+
+:Connexion au système;
+if (Déjà un compte?) then (Oui)
+    :Saisir le login et le mot de passe;
+    :Vérifier les informations de connexion;
+    if (Connexion réussie?) then (Oui)
+        :Vérifier si l'utilisateur est un employé d'une entreprise;
+        if (Est employé d'une entreprise?) then (Oui)
+            :Afficher le choix de compte;
+            if (Choix?) then (Compte personnel)
+                :Afficher le menu utilisateur;
+                :Choisir une opération (Dépôt, Retrait, Transfert, Consulter solde);
+                if (Opération choisie?) then (Dépôt)
+                    :Saisir le montant à déposer;
+                    :Mettre à jour le solde du compte;
+                    :Enregistrer la transaction dans transactions.txt;
+                else if (Retrait)
+                    :Saisir le montant à retirer;
+                    :Vérifier le solde et la limite quotidienne;
+                    if (Montant valide?) then (Oui)
+                        :Mettre à jour le solde du compte;
+                        :Enregistrer la transaction dans transactions.txt;
+                    else (Non)
+                        :Afficher un message d'erreur;
+                    endif
+                else if (Transfert)
+                    :Saisir le montant à transférer;
+                    :Saisir l'ID du destinataire;
+                    :Vérifier le solde et la limite quotidienne;
+                    if (Montant valide?) then (Oui)
+                        :Mettre à jour les soldes des comptes;
+                        :Enregistrer la transaction dans transactions.txt;
+                    else (Non)
+                        :Afficher un message d'erreur;
+                    endif
+                else if (Consulter solde)
+                    :Afficher le solde du compte;
+                    :Afficher l'historique des transactions;
+                endif
+            else (Compte entreprise)
+                :Afficher le menu entreprise;
+                :Choisir une opération (Dépôt, Retrait, Transfert, Consulter solde, Demande de prêt);
+                if (Opération choisie?) then (Dépôt)
+                    :Saisir le montant à déposer;
+                    :Mettre à jour le solde du compte;
+                    :Enregistrer la transaction dans transactions.txt;
+                else if (Retrait)
+                    :Saisir le montant à retirer;
+                    :Vérifier le solde et la limite quotidienne;
+                    if (Montant valide?) then (Oui)
+                        :Mettre à jour le solde du compte;
+                        :Enregistrer la transaction dans transactions.txt;
+                    else (Non)
+                        :Afficher un message d'erreur;
+                    endif
+                else if (Transfert)
+                    :Saisir le montant à transférer;
+                    :Saisir l'ID du destinataire;
+                    :Vérifier le solde et la limite quotidienne;
+                    if (Montant valide?) then (Oui)
+                        :Mettre à jour les soldes des comptes;
+                        :Enregistrer la transaction dans transactions.txt;
+                    else (Non)
+                        :Afficher un message d'erreur;
+                    endif
+                else if (Consulter solde)
+                    :Afficher le solde du compte;
+                    :Afficher l'historique des transactions;
+                else if (Demande de prêt)
+                    :Saisir les détails du prêt;
+                    :Envoyer la demande à l'employé bancaire;
+                endif
+            endif
+        else (Non)
+            :Afficher le menu utilisateur;
+            :Choisir une opération (Dépôt, Retrait, Transfert, Consulter solde);
+            if (Opération choisie?) then (Dépôt)
+                :Saisir le montant à déposer;
+                :Mettre à jour le solde du compte;
+                :Enregistrer la transaction dans transactions.txt;
+            else if (Retrait)
+                :Saisir le montant à retirer;
+                :Vérifier le solde et la limite quotidienne;
+                if (Montant valide?) then (Oui)
+                    :Mettre à jour le solde du compte;
+                    :Enregistrer la transaction dans transactions.txt;
+                else (Non)
+                    :Afficher un message d'erreur;
+                endif
+            else if (Transfert)
+                :Saisir le montant à transférer;
+                :Saisir l'ID du destinataire;
+                :Vérifier le solde et la limite quotidienne;
+                if (Montant valide?) then (Oui)
+                    :Mettre à jour les soldes des comptes;
+                    :Enregistrer la transaction dans transactions.txt;
+                else (Non)
+                    :Afficher un message d'erreur;
+                endif
+            else if (Consulter solde)
+                :Afficher le solde du compte;
+                :Afficher l'historique des transactions;
+            endif
+        endif
+    else (Non)
+        :Afficher un message d'erreur;
+    endif
+else (Non)
+    :Afficher les options;
+    if (Choix?) then (Créer un compte utilisateur)
+        :Saisir les informations du compte (nom, adresse, téléphone, CNIC, login, mot de passe);
+        :Enregistrer le nouveau compte dans users.txt;
+        :Afficher un message de succès;
+    else if (Quitter)
+        :Quitter l'application;
+    endif
+endif
+
+stop
+@enduml

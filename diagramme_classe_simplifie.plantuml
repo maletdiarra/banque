@@ -1,0 +1,88 @@
+@startuml diagramme_classe_simplifie
+class ClientUtilisateur {
+    - int userId
+    - String nomComplet
+    - String adresse
+    - String telephone
+    - String cnic
+    - String login
+    - String password
+    - double solde
+    - double limiteRetraitQuotidien
+    - String typeCompte
+    + boolean authentifier(String login, String password)
+    + void deposer(double montant)
+    + void retirer(double montant)
+    + void consulterSolde()
+}
+
+class ClientEntreprise {
+    - int companyId
+    - String nomEntreprise
+    - String adresseEntreprise
+    - String numeroFiscal
+    - double solde
+    - double limiteRetraitQuotidien
+    - String typeCompte
+    + boolean authentifier(String login, String password)
+    + void deposer(double montant)
+    + void retirer(double montant)
+    + void consulterSolde()
+    + void demanderPret(double montant)
+}
+
+class EmployeBancaire {
+    - int employeId
+    - String login
+    - String password
+    + boolean authentifier(String login, String password)
+    + void approuverCompte(ClientUtilisateur client)
+    + void approuverPret(ClientEntreprise entreprise)
+}
+
+abstract class Compte {
+    - int id
+    - double solde
+    - double limiteRetraitQuotidien
+    + void deposer(double montant)
+    + void retirer(double montant)
+    + void consulterSolde()
+}
+
+class CompteUtilisateur extends Compte {
+    - ClientUtilisateur proprietaire
+}
+
+class CompteEntreprise extends Compte {
+    - ClientEntreprise proprietaire
+}
+
+class Transaction {
+    - int transactionId
+    - Date date
+    - double montant
+    - String type
+    - Compte compteSource
+    - Compte compteDestinataire
+}
+
+class Banque {
+    - List<ClientUtilisateur> clientsUtilisateurs
+    - List<ClientEntreprise> clientsEntreprises
+    - List<EmployeBancaire> employes
+    - List<Transaction> transactions
+    + void ajouterClientUtilisateur(ClientUtilisateur client)
+    + void ajouterClientEntreprise(ClientEntreprise entreprise)
+    + void ajouterEmploye(EmployeBancaire employe)
+    + void effectuerTransaction(Transaction transaction)
+}
+
+ClientUtilisateur "1" -- "1" CompteUtilisateur
+ClientEntreprise "1" -- "1" CompteEntreprise
+Compte "1" -- "*" Transaction
+Banque "1" -- "*" ClientUtilisateur
+Banque "1" -- "*" ClientEntreprise
+Banque "1" -- "*" EmployeBancaire
+Banque "1" -- "*" Transaction
+
+@enduml

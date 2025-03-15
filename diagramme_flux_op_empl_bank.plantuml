@@ -1,0 +1,26 @@
+@startuml diagramme_flux_op_empl_bank
+start
+:Connexion au système;
+:Saisir le login et le mot de passe;
+:Vérifier les informations de connexion;
+if (Connexion réussie?) then (Oui)
+    :Afficher le menu employé;
+    :Choisir une opération (Approuver/Rejeter compte, Approuver/Rejeter prêt, Consulter historique, Geler/Fermer compte);
+    if (Opération choisie?) then (Approuver/Rejeter compte)
+        :Consulter la liste des demandes de compte;
+        :Approuver ou rejeter la demande;
+    else if (Approuver/Rejeter prêt)
+        :Consulter la liste des demandes de prêt;
+        :Approuver ou rejeter la demande;
+    else if (Consulter historique)
+        :Saisir l'ID du compte;
+        :Afficher l'historique des transactions;
+    else if (Geler/Fermer compte)
+        :Saisir l'ID du compte;
+        :Geler ou fermer le compte;
+    endif
+else (Non)
+    :Afficher un message d'erreur;
+endif
+stop
+@enduml

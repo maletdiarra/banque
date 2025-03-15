@@ -1,0 +1,43 @@
+@startuml diagramme_flux_op_client_ent
+start
+:Connexion au système;
+:Saisir le login et le mot de passe;
+:Vérifier les informations de connexion;
+if (Connexion réussie?) then (Oui)
+    :Afficher le menu entreprise;
+    :Choisir une opération (Dépôt, Retrait, Transfert, Consulter solde, Demande de prêt);
+    if (Opération choisie?) then (Dépôt)
+        :Saisir le montant à déposer;
+        :Mettre à jour le solde du compte;
+        :Enregistrer la transaction dans transactions.txt;
+    else if (Retrait)
+        :Saisir le montant à retirer;
+        :Vérifier le solde et la limite quotidienne;
+        if (Montant valide?) then (Oui)
+            :Mettre à jour le solde du compte;
+            :Enregistrer la transaction dans transactions.txt;
+        else (Non)
+            :Afficher un message d'erreur;
+        endif
+    else if (Transfert)
+        :Saisir le montant à transférer;
+        :Saisir l'ID du destinataire;
+        :Vérifier le solde et la limite quotidienne;
+        if (Montant valide?) then (Oui)
+            :Mettre à jour les soldes des comptes;
+            :Enregistrer la transaction dans transactions.txt;
+        else (Non)
+            :Afficher un message d'erreur;
+        endif
+    else if (Consulter solde)
+        :Afficher le solde du compte;
+        :Afficher l'historique des transactions;
+    else if (Demande de prêt)
+        :Saisir les détails du prêt;
+        :Envoyer la demande à l'employé bancaire;
+    endif
+else (Non)
+    :Afficher un message d'erreur;
+endif
+stop
+@enduml

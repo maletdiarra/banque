@@ -1,0 +1,29 @@
+@startuml diagramme_flux_gest_transaction
+start
+:Choisir une opération (Dépôt, Retrait, Transfert);
+if (Opération choisie?) then (Dépôt)
+    :Saisir le montant à déposer;
+    :Mettre à jour le solde du compte;
+    :Enregistrer la transaction dans transactions.txt;
+else if (Retrait)
+    :Saisir le montant à retirer;
+    :Vérifier le solde et la limite quotidienne;
+    if (Montant valide?) then (Oui)
+        :Mettre à jour le solde du compte;
+        :Enregistrer la transaction dans transactions.txt;
+    else (Non)
+        :Afficher un message d'erreur;
+    endif
+else if (Transfert)
+    :Saisir le montant à transférer;
+    :Saisir l'ID du destinataire;
+    :Vérifier le solde et la limite quotidienne;
+    if (Montant valide?) then (Oui)
+        :Mettre à jour les soldes des comptes;
+        :Enregistrer la transaction dans transactions.txt;
+    else (Non)
+        :Afficher un message d'erreur;
+    endif
+endif
+stop
+@enduml
